@@ -1,0 +1,17 @@
+	i = 2 ;
+	console.log(i);
+	if (5 > 3)
+	{
+		i = 7;
+		console.log(i);
+		i = 71;
+		console.log(i);
+	}
+	else
+	{
+		console.log(i);
+	}
+	console.log(i);
+	i = 1;
+	console.log(i);
+

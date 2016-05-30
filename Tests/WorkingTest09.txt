@@ -1,0 +1,29 @@
+	function g(k)
+	{
+		k = k + 10;
+		return k;
+	}
+
+	function f(y, z)
+	{
+		console.log(x);
+		x = x + 10;
+		console.log(x);
+		console.log(x + y);
+		z = 7;
+		console.log(z);
+	}
+	
+	k = 7;
+	k = g(k);
+	console.log(k);
+	
+	z = 5;
+	f(g(k), z);
+	console.log(z);
+	
+
+	
+	
+	
+	

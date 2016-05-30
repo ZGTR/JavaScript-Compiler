@@ -1,0 +1,27 @@
+var Apple = function() {
+	this.name = "apple";
+	this.color = "green";
+	this.say_hello = function() {
+		console.log("hi my name is: " + this.name + ", and my color is: " + this.color);
+	};
+}
+
+var my_apple = new Apple();
+my_apple.say_hello();
+
+my_apple.color = "red";
+my_apple.name = "new Apple";
+my_apple.say_hello(); 
+
+var my_apple2 = new Apple();
+my_apple2.say_hello(); 
+
+my_apple2.name = my_apple.name;
+my_apple2.say_hello(); 
+
+
+	
+	
+	
+	
+

@@ -1,0 +1,17 @@
+	function f(y, z)
+	{
+		console.log(x);
+		x = x + 10;
+		console.log(x);
+		console.log(x + y);
+		z = 7;
+		console.log(z);
+	}
+	
+	z = 5;
+	f(30, z);
+	console.log(z);
+	
+	
+	
+	

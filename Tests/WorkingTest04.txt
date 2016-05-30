@@ -1,0 +1,31 @@
+	r = 8;
+	while(r < 10)
+	{	
+		console.log(z);
+		z = z - 1;	
+		for(var m = 1; m < 4 ; m = m + 1)
+		{
+			z = 2 ;
+			console.log(z);
+			if (5 > 3)
+			{
+				z = 7;
+				console.log(z);
+				z = 71;
+				console.log(z);
+			}
+			else
+			{
+				console.log(z);
+			}
+			console.log(z);
+			z = 1;
+			console.log(z);
+			console.log(m);			
+		}	
+		console.log("______________");
+		console.log(r);
+		r = r + 1;
+	}
+
+	

@@ -1,0 +1,1141 @@
+/**
+ * JavaCC file
+ */
+
+options {
+  JDK_VERSION = "1.5";
+}
+PARSER_BEGIN(JSParser)
+package js_compiler;
+import java.util.ArrayList;
+import js_compiler.JS_COMPILERGrammar .* ; 
+ import java.util.HashMap;
+import java.io.InputStreamReader;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+public class JSParser {
+	public static HashMap<String, VarValue> Vars_Table;
+	public static void main(String args[]) throws ParseException, FileNotFoundException  {
+		 Vars_Table = new HashMap<String, VarValue>();
+		 JSParser rzCompiler = new JSParser (new DataInputStream(new BufferedInputStream(new FileInputStream("Z:\\test.txt"))));
+		 TreeNode treeNodeBase = rzCompiler.start();
+		 System.out.println("HELLOZ - Done parsing successfully :P");
+	 	for(TreeNode child : treeNodeBase.childs)
+		{
+			child.Execute();
+		}
+	 }
+}
+
+PARSER_END(JSParser)
+
+SKIP:
+{
+	" "|
+	"\t"|
+	"\n"|
+	"\r"|
+	"\f"
+}
+
+
+SPECIAL_TOKEN :
+{
+
+
+	<SINGLE_LINE_COMMENT: "//" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>|
+	<MULTI_LINE_COMMENT: "/*" (~["*"])* "*" ("*" | (~["*","/"] (~["*"])* "*"))* "/">
+
+
+}
+
+
+
+
+
+TOKEN : 
+
+
+{
+ 	< ABSTRACT: "abstract" >| 
+	< BOOLEAN: "boolean" >| 
+	< BREAK: "break" >|
+ 	< BYTE: "byte" >| 
+	< CASE: "case" >|
+	< CATCH: "catch" >|
+ 	< CHAR: "char" >| 
+	< CLASS: "class" >| 
+	< CONST: "const" >| 
+	< CONTINUE: "continue" >| 
+	< _DEFAULT: "default" >|
+	< DELETE: "delete" >| 
+	< DO: "do" >|
+ 	< DOUBLE: "double" >| 
+	< ELSE: "else" >|
+	< EXTENDS: "extends" >|
+	< FIELD : "field">|
+ 	< FINAL: "final" >| 
+	< FINALLY: "finally" >| 
+	< FLOAT: "float" >|
+ 	< FOR: "for" >| 
+	< FUNCTION: "function" >|
+ 	< GOTO: "goto" >|
+ 	< IF: "if" >| 
+	< IMPLEMENTS: "implements" >|
+ 	< IMPORT: "import" >|
+ 	< IN: "in" >| 
+	< INSTANCEOF: "instanceof" >| 
+	< INT: "int" >|
+ 	< INTERFACE: "interface" >|
+ 	< LONG: "long" >| 
+	< NATIVE: "native" >| 
+	< NEW: "new" >| 
+	< PACKAGE: "package">| 
+	< PRIVATE: "private" >|
+ 	< PROTECTED: "protected" >|
+ 	< PUBLIC: "public" >| 
+	< RETURN: "return" >|
+ 	< SHORT: "short" >| 
+	< STATIC: "static" >| 
+	< SUPER: "super" >|
+ 	< SWITCH: "switch" >|
+ 	< SYNCHRONIZED: "synchronized" >| 
+	< THIS: "this" >|
+ 	< THROW: "throw" >|
+ 	< THROWS: "throws" >| 
+	< TRY: "try" >|
+ 	< TYPEOF: "typeof" >| 
+	< VAR: "var">|
+ 	< VOID: "void" >| 
+	< WHILE: "while" >| 
+	< WITH: "with" >|
+	< LPAREN: "(" >|
+	< RPAREN: ")" >| 
+	< LBRACE: "{" >|
+ 	< RBRACE: "}" >|
+ 	< LBRACKET: "[" >|
+ 	< RBRACKET: "]" >|
+ 	< SEMICOLON: ";" >|
+ 	< COMMA: "," >|
+	//< ASSIGN: "=" >|
+	< ASSIGN_ALL: "=" | "-=" | "*=" |"/="  ">>=" | "<<=" | ">>>=" | "&=" | "^=" | "|="  >|	
+ 	< GT: ">" >|
+ 	< LT: "<" >|
+	
+	< LE: "<=" >| 
+	< GE: ">=" >|
+	
+	< RSIGNEDSHIFT: ">>" >| 
+	< RUNSIGNEDSHIFT: ">>>" >| 	
+	
+	< PLUSASSIGN: "+=" >| 
+	< MINUSASSIGN: "-=" >|
+ 	< STARASSIGN: "*=" >|
+ 	< SLASHASSIGN: "/=" >|
+	
+	< RSIGNEDSHIFTASSIGN: ">>= " >| 
+	< RUNSIGNEDSHIFTASSIGN: ">>>=" >|
+ 	
+ 	< BANG: "!" >| 
+	< TILDE: "~" >|
+ 	< HOOK: "?" >|
+ 	< COLON: ":" >| 
+	< DOT: "." >| 
+	< EQ: "==" >|  
+	< NE: "!=" >| 
+	< OR: "||" >|
+ 	< AND: "&&" >| 
+	< INCR: "++" >| 
+	< DECR: "--" >| 
+	< PLUS: "+" >| 
+	< MINUS: "-" >| 
+	< STAR: "*" >| 
+	< SLASH: "/" >|
+ 	< BIT_AND: "&" >| 
+	< BIT_OR: "|" >| 
+	< XOR: "^" >| 
+	< REM: "%" >| 
+
+	< LSHIFT: "<<" >|
+
+	< SC_ORASSIGN: "||=" >|
+ 	< SC_ANDASSIGN: "&&=" >|
+	< BIT_ANDASSIGN: "&=" >| 
+	< BIT_ORASSIGN: "|=" >| 
+	< XORASSIGN: "^=" >| 
+	< REMASSIGN: "%=" >| 
+	< LSHIFTASSIGN: "<<=" >| 
+
+	<ELEMENT : "Element">|
+	<NUMBER : "Number">|
+	<STOP : "stop">|
+	<ESCAPE : "escape">|
+	<OBJECT : "Object">|
+	<STRING : "String">|
+	<String_S : "'"(~[])+"'" >|
+	<NUMBERS : (["0"-"9"])+ ("."(["0"-"9"])+)?>|
+	<GET : "get">|
+	<SET : "set"> |
+
+	<_FUNCTION : "Function">|
+
+	<VALUEOF : "valueOf">|
+	
+	<PAGEYOFFSET : "pageYoffset">|
+	<DEBUGGER : "debugger">|
+	
+	<PARENT :"parent">|
+	
+	<INFINITY : "Infinity">|
+	<PARSEFLOAT : "parseFloat">|
+	<PARSEINT : "parseInt">|
+	<PASSWORD : "Password">|
+	<INNERHEIGHT : "InnerHeight">|
+	<INNERWIDTH : "InnerWidth">|
+	< INTEGER_LITERAL: <DECIMAL_LITERAL> >|
+
+	< #DECIMAL_LITERAL: ["1"-"9"] (["0"-"9"])* >|
+	< #HEX_LITERAL: "0" ["x","X"] (["0"-"9","a"-"f","A"-"F"])+ >|
+	< #OCTAL_LITERAL: "0" (["0"-"7"])* >|
+	< FLOATING_POINT_LITERAL:
+        (["0"-"9"])+ "." (["0"-"9"])* (<EXPONENT>)?
+      | "." (["0"-"9"])+ (<EXPONENT>)?
+      | (["0"-"9"])+ (<EXPONENT>)?
+	>
+	|
+	< #EXPONENT: ["e","E"] (["+","-"])? (["0"-"9"])+ >|
+	< STRING_LITERAL:
+        "\""
+        (   (~["\"","\\","\n","\r"])
+        | <ESCAPE_SEQUENCE>
+        )*
+        "\""
+      | "'"
+        (   (~["'","\\","\n","\r"])
+        | <ESCAPE_SEQUENCE>
+        )*
+        "'"
+	>
+	|
+	< #ESCAPE_SEQUENCE:
+      "\\"
+        ( ["n","t","b","r","f","\\","'","\""]
+        | ["0"-"7"] ( ["0"-"7"] )?
+        | ["0"-"3"] ["0"-"7"] ["0"-"7"]
+        | ["x", "X"] ["0"-"9","a"-"f","A"-"F"] ["0"-"9","a"-"f","A"-"F"]
+        )
+	>|
+	< BOOLEAN_LITERAL:
+        "true"
+      |
+        "false"
+	>|
+ 
+	< NULL_LITERAL: "null">|
+
+	<IDENTIFIER: ((("_")*("$")*(["A"-"Z"]|["a"-"z"])*)+((["0"-"9"])*)?)>
+}
+
+TreeNode start():
+{
+	TreeNode baseTreeNode = new BlockNode();
+	TreeNode block = null;
+}
+{
+	(
+		block = Block()
+		{
+			baseTreeNode.addChild(block);
+		}
+	)
+	<EOF>
+	{return baseTreeNode;}
+}
+
+BlockNode Block():
+{
+	BlockNode blockBaseNode = new BlockNode();
+	TreeNode statement = null;	
+}
+{
+	( statement = Statement() {blockBaseNode.addChild(statement);} )+  
+	{return blockBaseNode;}
+}
+
+TreeNode Statement():
+{ TreeNode statement = null; }
+{
+  ( 
+  	statement = Assignment()
+  	|statement = IfStatement()
+  //|statement = WhileStatement()
+  //|LOOKAHEAD(<FOR><LPAREN>) statement = ForStatement()
+  )
+    {return statement;}
+}
+
+
+void PrimaryExpression() :
+{}
+{
+	LOOKAHEAD("this") "this" 
+	//| LOOKAHEAD("{") ObjectLiteral()
+	| LOOKAHEAD("(") ( "(" Expression() ")" ) 
+	| LOOKAHEAD(<IDENTIFIER>) <IDENTIFIER>
+	//| LOOKAHEAD("[") ArrayLiteral()
+	| LOOKAHEAD(2) Literal() 
+	|LOOKAHEAD("new") AllocationExpression()
+}
+
+	/* Section 7.8: Literals */
+
+void Literal()  :
+{
+  Token t;
+//  List arrayLiteral;
+}
+{
+	t = <INTEGER_LITERAL> 
+	
+|
+	t = <STRING_LITERAL>
+	/*{
+		jjtThis.setStringValue(t.image);
+	}*/
+|
+	t = <BOOLEAN_LITERAL>
+	/*{
+		jjtThis.setBooleanValue(t.image);
+	}*/
+|
+	t = <NULL_LITERAL>
+	/*{
+		jjtThis.setNullValue();
+	}*/
+
+}
+
+	void Identifier()  :
+	{
+	  Token t;
+	}
+	{
+	  t = <IDENTIFIER>	  
+	}
+
+	/* Section 11.2: Left-Hand-Side Expressions */
+
+	void MemberExpression() :
+	{}
+	{ 
+		( ( 
+				LOOKAHEAD("function") FunctionExpression()
+				| PrimaryExpression()  
+		) (LOOKAHEAD(2) MemberExpressionPart())*	 ) 
+	}
+
+	void MemberExpressionForIn() :
+	{}
+	{ 
+		( ( 
+				LOOKAHEAD("function") FunctionExpression()
+				| PrimaryExpression()  
+		) (LOOKAHEAD(2) MemberExpressionPart())*	 )
+	}
+
+	void AllocationExpression()  :
+	{}
+	{
+		( "new" MemberExpression() ( (LOOKAHEAD(Arguments()) Arguments() (LOOKAHEAD(2) MemberExpressionPart())* ) * ) ) 
+	}
+
+	void MemberExpressionPart()  :
+	{}
+	{
+		( "[" Expression() "]" ) | ( "." Identifier() ) 
+
+	}
+
+	void CallExpression() : 
+	{}
+	{
+		MemberExpression() Arguments() ( LOOKAHEAD(2) CallExpressionPart() )*
+	}
+
+	void CallExpressionForIn()  : 
+	{}
+	{
+		MemberExpressionForIn() Arguments() ( LOOKAHEAD(2) CallExpressionPart() )*
+	}
+
+	void CallExpressionPart()  :
+	{}
+	{
+		Arguments() | ( "[" Expression() "]" ) | ( "." Identifier() ) 
+	}
+
+	void Arguments()  :
+	{}
+	{
+		"(" (ArgumentList())? ")"
+	}
+
+
+	void ArgumentList()  :
+	{}
+	{
+		AssignmentExpression() ("," AssignmentExpression())*
+	}
+
+
+	void LeftHandSideExpression(): 
+	{}
+	{
+		LOOKAHEAD(MemberExpression() "(") CallExpression() | MemberExpression() 
+	}
+
+
+	void LeftHandSideExpressionForIn() : 
+	{}
+	{
+		LOOKAHEAD(CallExpression()) CallExpressionForIn() | MemberExpressionForIn() 
+	}
+
+	/* Section 11.3 Postfix Expressions */
+
+	void PostfixExpression()  :
+	{}
+	{
+		LeftHandSideExpression() [ LOOKAHEAD(1) PostfixOperator() ]
+	}
+
+	void PostfixOperator()  :
+	{}
+	{
+		( "++" | "--")
+	} 
+
+
+	/* Section 11.4 Unary Operators */
+
+	void UnaryExpression() :
+	{}
+	{ 
+		PostfixExpression() | ( LOOKAHEAD(1) UnaryOperator() UnaryExpression() )+
+	}
+
+	void UnaryOperator()  :
+	{}
+	{
+		("delete" | "void" | "typeof" | "++" | "--" | "+" | "-" | "~" | "!")
+	}
+
+
+	/* Section 11.5: Multiplicative Operators */
+
+
+	void MultiplicativeExpression() :
+	{}
+	{ 
+		UnaryExpression() ( MultiplicativeOperator() UnaryExpression() )*
+	}
+
+
+	void MultiplicativeOperator() :
+	{}
+	{
+		("*" | <SLASH> | "%")
+	}
+
+	/* Section 11.6: Additive Operators */
+
+	void AdditiveExpression()	: 
+	{}
+	{
+		MultiplicativeExpression() ( LOOKAHEAD(1) AdditiveOperator() MultiplicativeExpression())*
+	}
+
+	void AdditiveOperator()  :
+	{}
+	{
+		("+" | "-")
+	}
+
+
+	/* Section 11.7: Bitwise Shift Operators */
+
+	void ShiftExpression() 	:
+	{}
+	{
+		AdditiveExpression() ( ShiftOperator() AdditiveExpression() )*
+	}
+
+	void ShiftOperator() 	:
+	{}
+	{
+		("<<" | ">>" | ">>>")
+	}
+
+	/* Section 11.4: Relational Operators */
+
+	void RelationalExpression()  :
+	{}
+	{
+		ShiftExpression() ( RelationalOperator() ShiftExpression() )*
+	}
+
+	void RelationalOperator()  :
+	{}
+	{
+		("<" | ">" | "<=" | ">=" | "instanceof" | "in")
+	}
+
+	void RelationalExpressionNoIn() 	:
+	{}
+	{
+		ShiftExpression() ( RelationalNoInOperator() ShiftExpression() )*
+	}
+
+
+	void RelationalNoInOperator() 	:
+	{}
+	{
+		("<" | ">" | "<=" | ">=" | "instanceof")
+	}
+
+	/* Section 11.9: Equality Operators */
+
+	void EqualityExpression() 	:
+	{}
+	{
+		RelationalExpression() ( EqualityOperator() RelationalExpression() )*
+	}
+
+	void EqualityExpressionNoIn()  :
+	{}
+	{
+		RelationalExpressionNoIn() ( EqualityOperator() RelationalExpressionNoIn())*
+	}
+
+	void EqualityOperator() 	:
+	{}
+	{
+		("==" | "!=" | "===" | "!==")
+	}
+
+	/* Section 11.10: Binary Bitwise Operators */
+
+	void BitwiseANDExpression()  :
+	{}
+	{
+		EqualityExpression() ( BitwiseANDOperator() EqualityExpression())*
+	}
+
+	void BitwiseANDExpressionNoIn()  :
+	{}
+	{
+		EqualityExpressionNoIn() (BitwiseANDOperator() EqualityExpressionNoIn())*
+	}
+
+	void BitwiseANDOperator()  :
+	{}
+	{
+		"&"
+	}
+
+	void BitwiseXORExpression()  :
+	{}
+	{
+		BitwiseANDExpression() (BitwiseXOROperator() BitwiseANDExpression())*
+	}
+
+	void BitwiseXORExpressionNoIn()  :
+	{}
+	{
+		BitwiseANDExpressionNoIn() (BitwiseXOROperator() BitwiseANDExpressionNoIn())*
+	}
+
+	void BitwiseXOROperator()  :
+	{}
+	{
+		"^"
+	}
+
+	void BitwiseORExpression()  :
+	{}
+	{
+		BitwiseXORExpression() (BitwiseOROperator() BitwiseXORExpression())*
+	}
+
+	void BitwiseORExpressionNoIn()	:
+	{}
+	{
+		BitwiseXORExpressionNoIn() (BitwiseOROperator() BitwiseXORExpressionNoIn())*
+	}
+
+	void BitwiseOROperator() 	:
+	{}
+	{
+		"|"
+	}
+	/* Section 11.11: Binary Logical Operators */
+
+	void LogicalANDExpression()  :
+	{}
+	{
+		BitwiseORExpression() (LogicalANDOperator() BitwiseORExpression())*
+	}
+
+	void LogicalANDExpressionNoIn() 	:
+	{}
+	{ 
+		BitwiseORExpressionNoIn() (LogicalANDOperator() BitwiseORExpressionNoIn())*
+	}
+
+	void LogicalANDOperator() 	:
+	{}
+	{
+		"&&"
+	}
+
+	void LogicalORExpression()  :
+	{}
+	{
+		LogicalANDExpression() (LogicalOROperator() LogicalANDExpression())*
+	}
+
+	void LogicalORExpressionNoIn()  :
+	{}
+	{
+		LogicalANDExpressionNoIn() (LogicalOROperator() LogicalANDExpressionNoIn())*
+	}
+
+	void LogicalOROperator() 	:
+	{}
+	{
+		"||"
+	}
+
+	/* Section 11.12: Conditional Operator */
+
+	void ConditionalExpression()  :
+	{}
+	{
+		LogicalORExpression() [ "?" AssignmentExpression() ":" AssignmentExpression() ]
+	}
+
+	void ConditionalExpressionNoIn() :
+	{}
+	{
+		LogicalORExpressionNoIn() [ "?" AssignmentExpression() ":" AssignmentExpressionNoIn() ]
+	}
+
+
+	/* Section 11.13: Assignment Operators */
+
+	void AssignmentExpression()  :
+	{}
+	{
+		LOOKAHEAD(LeftHandSideExpression() AssignmentOperator()) LeftHandSideExpression() AssignmentOperator() AssignmentExpression() 
+		| ConditionalExpression() 
+	}
+
+	void AssignmentExpressionNoIn()  : 
+	{}
+	{
+		LOOKAHEAD(LeftHandSideExpression() AssignmentOperator()) LeftHandSideExpression() AssignmentOperator() AssignmentExpressionNoIn()
+		| ConditionalExpressionNoIn() 
+	}
+	
+	void AssignmentOperator()  :
+	{}
+	{
+		<ASSIGN_ALL> | <SLASHASSIGN>
+	}
+
+	/* Section 11.14: Comma Operator */
+
+	void Expression()  :
+	{}
+	{
+		AssignmentExpression() ( "," AssignmentExpression() )*
+	}
+
+	void ExpressionNoIn() :
+	{}
+	{
+		AssignmentExpressionNoIn() ( "," AssignmentExpressionNoIn() )*
+	}
+
+/* ****Rawan's EXP Edit 31-12-2012 ************/
+	
+ExpNode BaExp():
+{ExpNode right=null;ExpNode left=null;Token S=null;}
+{
+  ((S=<String_S>|right=BoExp())("+"left=BaExp())?)
+ {
+     if((S==null)&&(right!=null))
+     {	       
+	     if((left!=null))
+	    	return new ExpNode(right,left,"double","+");
+	    else return new ConstantNode("double",right.Execute().toString());
+	 }	
+	 if(S!=null)
+     {   ConstantNode C_N=new ConstantNode("string",S.image);
+	     if((left!=null))
+	    	return new ExpNode(C_N,left,"double","+");
+	    else return C_N;
+	 }	
+  }
+  }
+  
+ExpNode BoExp():
+{ExpNode right=null; ExpNode left=null; Token op=null;}
+{
+  (right=Exp2()((op="+"|op="-") left=BoExp() )?)
+  {
+     if(left!=null)
+    	return new ExpNode(right,left,"double",op.image);
+    else return new ConstantNode("double",right.Execute().toString());
+  }
+}
+
+ExpNode Exp2():
+{ExpNode right=null;ExpNode left=null;Token op=null;}
+{
+  (right=Number()(op="*" left=Exp2() |op="/" left=Exp2()) ?)
+   {
+     if(left!=null)
+    	return new ExpNode(right,left,"double",op.image);
+    else return new ConstantNode("double",right.Execute().toString());
+  }
+
+}
+
+ExpNode Number():
+{ Token num;ExpNode exp=null;}
+{
+  ((num=<NUMBERS>{exp= new ConstantNode("double",num.image);})
+  |("(" exp=BoExp()")")){return exp;}  
+}
+
+/*Boolean Exprision */
+
+
+BoolExpNode BooleanExpression():
+{
+	ExpNode Right=null,Left=null;
+	Token Op=null;
+	Token Var1=null;
+	Token Var2=null;
+}
+{
+   (Right = BaExp() | Var1 =  <IDENTIFIER> )
+   (
+	  	( Op = ">="
+	   | Op = "<="
+	   | Op= ">"
+	   | Op= "<"
+	   | Op= "=="
+	   | Op= "!=")
+	    Var2 =  <NUMBERS> | <IDENTIFIER> | Left = BaExp()
+    )?
+
+{
+  if((Var1==null)&&(Var2==null))
+  return new BoolExpNode(Right,Left,Op.image);
+  else
+  	if(Var1==null)
+  	{
+   	 VariableNode VN=new VariableNode(Var2.toString(),Vars_Table.get(Var2.toString()));
+    	return new BoolExpNode(Left,VN,Op.image);
+  	}
+  	 else
+  	if(Var2==null)
+  	{
+   	 VariableNode VN=new VariableNode(Var1.toString(),Vars_Table.get(Var1.toString()));
+    	return new BoolExpNode(VN,Right,Op.image);
+  	}
+  	 else
+  	if((Var1!=null)&&(Var2!=null))
+  	{
+   	 VariableNode VN=new VariableNode(Var1.toString(),Vars_Table.get(Var1.toString()));
+   	 VariableNode VN1=new VariableNode(Var2.toString(),Vars_Table.get(Var2.toString()));
+    	return new BoolExpNode(VN,VN1,Op.image);
+  	}
+}
+}
+ 
+ /* Assignment */
+ AssignmentNode Assignment1():
+{ AssignmentNode AN;
+  Token var;
+  Token op;
+  boolean b;
+}
+{
+  ((var = <IDENTIFIER>(op=<INCR>|op=<DECR>)  {b=false;})
+  |((op =<INCR>|op=<DECR>) var =<IDENTIFIER>{b=true;}))
+  {
+    AN=new AssignmentNode(var.image,null,op.image,b);
+    return AN;
+  }
+  
+}
+
+AssignmentNode Assignment():
+{
+  AssignmentNode AN=null;
+  Token var;
+  Token op;
+  ExpNode exp=null;
+  boolean bo;
+}
+{ 
+	LOOKAHEAD(<IDENTIFIER><ASSIGN_ALL>)
+	(var = <IDENTIFIER> op = <ASSIGN_ALL> exp = BoExp() ";")
+	{
+		return AN = new AssignmentNode(var.image,null,op.image,true);
+	}
+	|
+	(AN = Assignment1()";")
+	{return AN;}
+}
+	
+
+
+	/* Section 12.2: Variable statement */
+
+	void VariableStatement()  :
+	{}
+	{
+		"var" VariableDeclarationList() (LOOKAHEAD(2) ";")?
+	}
+
+	void VariableDeclarationList()  :
+	{}
+	{
+		VariableDeclaration() ( "," VariableDeclaration() )*
+	}
+
+	void VariableDeclarationListNoIn() :
+	{}
+	{
+		VariableDeclarationNoIn() ( "," VariableDeclarationNoIn() )*
+	}
+
+	void VariableDeclaration() :
+	{}
+	{
+		Identifier() ( Initialiser() )?
+	}
+
+	void VariableDeclarationNoIn() :
+	{}
+	{
+		Identifier() ( InitialiserNoIn() )?
+	}
+
+	void Initialiser():
+	{}
+	{
+		"=" AssignmentExpression()
+	}
+
+	void InitialiserNoIn():
+	{}
+	{
+		"=" AssignmentExpressionNoIn()
+	}
+
+
+	/* Section 12.3: Empty Statement */
+
+	void EmptyStatement()  :
+	{}
+	{
+		";"
+	}
+
+
+	/* Section 12.4: Expression Statement */
+
+	void ExpressionStatement()  :
+	{}
+	{
+		Expression() (LOOKAHEAD(2) ";")?
+	}
+
+/*1-1-2013 */
+/* Section 12.5: The if Statement */
+
+TreeNode IfStatement():
+{ 
+	BoolExpNode condition = null;
+	IfNode ifNode  = new IfNode();
+	BlockNode ifNodeBody = null;
+	BlockNode elseNodeBody = null;
+}
+{
+	("if" "(" condition = BooleanExpression() ")"
+		{	ifNode.addChild(condition);} 
+		(
+			ifNodeBody = Block()
+			{ifNode.addChild(ifNodeBody);}
+		)
+	)	 
+	(
+		"else"
+		elseNodeBody = Block()
+		{ifNode.addChild(elseNodeBody);} 
+	)?
+	{return ifNode;}
+}
+
+
+	/* Section 12.6: While Statements */
+	
+TreeNode WhileStatement():
+{   
+	WhileNode whileNode = new WhileNode();
+	BoolExpNode condition =null;	
+	BlockNode whileBody = null;
+}
+{
+  <WHILE>
+  <LPAREN> condition = BooleanExpression() { whileNode.addChild(condition); } <RPAREN>
+  (
+  		(whileBody = Block(){ whileNode.addChild(whileBody); })  
+  )
+  { return whileNode;}
+}
+
+/* ForStatement  */
+
+ForNode ForStatement():
+{  
+	ForNode forNode = new ForNode();
+	AssignmentNode assignNode = null;
+	BoolExpNode cond1 = null;
+   	TreeNode cond2 = null ;  	
+	TreeNode forBody = null;	
+}
+{
+  <FOR> 
+  	"(" "var" assignNode = Assignment() ";"
+	  	(cond1=BooleanExpression())";"
+	  	(cond2=Assignment())
+  	")"  	  	
+  	(
+		 forBody = Block()
+  	)
+  	{
+  		forNode.addChild(assignNode);
+  		forNode.addChild(cond1);
+  		forNode.addChild(cond2);
+  		forNode.addChild(forBody);
+  		return forNode;
+  	}
+}
+
+	
+
+	/* Section 12.7: The continue Statement */
+
+	void ContinueStatement()  :
+	{}
+	{
+		"continue" ( LOOKAHEAD(Identifier()) Identifier() )? (LOOKAHEAD(";") ";")?
+	}
+
+
+	/* Section 12.8: The break Statement */
+
+	void BreakStatement() :
+	{}
+	{
+		"break" ( LOOKAHEAD(Identifier()) Identifier() )? (LOOKAHEAD(";") ";")?
+	}
+
+
+	/* Section 12.9 The return Statement */
+
+	void ReturnStatement()  :
+	{}
+	{
+		"return" ( LOOKAHEAD(Expression()) Expression() )?  (LOOKAHEAD(";") ";")?
+	}
+
+
+	/* Section 12.10: The with Statement */
+
+	void WithStatement() :
+	{}
+	{
+		"with" "(" Expression() ")" Statement()
+	}
+
+
+	/* 12.11 The switch Statement */
+
+/*
+	void SwitchStatement() :
+	{}
+	{
+		"switch" "(" Expression() ")" CaseBlock()
+	}
+	
+
+	void CaseBlock()  :
+	{}
+	{
+		"{" ( CaseClauses() )? 
+				( 
+						"}" | DefaultClause() ( CaseClauses() )? "}" 
+				)
+	}
+
+	void CaseClauses() :
+	{}
+	{
+		( CaseClause() )+
+	}
+
+	void CaseClause()   :
+	{}
+	{
+		(( "case" Expression() ":" )) (Block())?
+	}
+
+	void DefaultClause() :
+	{}
+	{
+		(( "default" ":" )) (Block())?
+	}
+*/
+
+	/* Section 12.12: Labelled Statements */
+
+	void LabelledStatement() :
+	{}
+	{
+		Identifier() ":" Statement()
+	}
+
+	void ThrowStatement()  :
+	{}
+	{
+		"throw" Expression() (LOOKAHEAD(";") ";")?
+	}
+
+	void TryStatement()  : 
+	{}
+	{
+		"try" Block() 
+		( 
+				( Finally() | Catch() [Finally()])
+		)
+	}  
+
+	void Catch()  :
+	{}
+	{
+		"catch" "(" Identifier() ")" Block()
+	}
+
+	void Finally():
+	{}
+	{
+		"finally" Block()
+	}
+
+	/* Section 13: Function Definition */
+
+	void FunctionDeclaration() :
+	{}
+	{
+		"function" Identifier() ( "(" ( FormalParameterList() )? ")" )FunctionBody()  
+	}
+
+	void FunctionExpression() :
+	{}
+	{
+		"function" ( Identifier() )? ( "(" ( FormalParameterList() )? ")" ) FunctionBody()
+	}
+
+	void FormalParameterList() :
+	{}
+	{
+		Identifier() ( "," Identifier() )*
+	}
+
+	void FunctionBody()  :
+	{}
+	{
+		"{" (SourceElements())? "}" 
+	}
+
+
+	/* Section 14: Program */
+
+	void Program() :
+	{}
+	{  
+		(SourceElements())?
+				<EOF>
+		
+	}
+
+	void SourceElements() :
+	{}
+	{
+		(SourceElement())+ 
+	}
+
+	void SourceElement() :
+	{}
+	{
+		LOOKAHEAD(FunctionDeclaration()) FunctionDeclaration() | Statement()
+	}
+
+
+	/*
+	 * Grammar for parsing JScript .NET contructs: ( import System; var contents :
+	 * String = reader.ReadToEnd(); ) Refer: src/hostenv_jsc.js
+	 */
+
+	void ImportStatement():
+	{}
+	{
+		"import" Name() [ "." "*" ] ";"
+	}
+
+
+	void Name():
+	{}
+	{
+		<IDENTIFIER> ( LOOKAHEAD(2) "." <IDENTIFIER> )*
+	}
+
+
+	void JScriptVarStatement() :
+	{}
+	{
+		"var" JScriptVarDeclarationList() (LOOKAHEAD(2) ";")?
+	}
+
+	void JScriptVarDeclarationList() :
+	{}
+	{
+		JScriptVarDeclaration() ( "," JScriptVarDeclaration() )*
+	}	
+
+	void JScriptVarDeclaration() :
+	{}
+	{
+		Identifier() ":" <IDENTIFIER> ( Initialiser() )?
+	}

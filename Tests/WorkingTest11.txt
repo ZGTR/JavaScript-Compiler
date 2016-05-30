@@ -1,0 +1,20 @@
+var Apple = function() {
+	this.name = "apple";
+	this.color = "green";
+	this.say_hello = function() {
+		console.log("hi my name is: " + this.name + ", and my color is: " + this.color);
+	};
+}
+var my_apple2 = new Apple();
+var objArr = [];
+objArr[1] = my_apple2;
+objArr[9] = 0;
+objArr[2] = "Hello from array";
+console.log(objArr[1].name);
+my_apple2.name = "myNewApple";
+console.log(objArr[1].name);
+console.log(objArr[2]);
+console.log(objArr[9]);
+console.log(objArr[123]);
+objArr[9] = objArr[2];
+console.log(objArr[9]);

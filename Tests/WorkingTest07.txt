@@ -1,0 +1,10 @@
+	console.log(x + "ww" + ssdsd + "wewewqww"); 
+	x = 30;
+	if (x == "hello")
+	{
+		console.log("yup if" + y); 
+	}
+	else
+	{
+		console.log("yup else" + y); 
+	}
